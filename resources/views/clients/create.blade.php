@@ -6,6 +6,7 @@
 @if( session()->has('info') )
     <h3>{{ session('info') }}</h3>
 @endif
+</div>
 <form class="container-fluid" action={{ route('clients.store') }} method="POST">
   @include('clients.form', [
     'client' => new App\Client
