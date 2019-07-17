@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Client;
-use App\Http\Controllers\Auth\RegisterController;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
@@ -58,10 +57,9 @@ class ClientsController extends Controller
       try {
         $client = Client::create($request->all());
         auth()->user()->client_id = $client->id;
-        //auth()->user()->isClient();
         auth()->user()->update();
-        //event(new ClientRegistered($client));
-        //$client->notify(new Revision($client));
+        event(new ClientRegistered($client));
+        $client->notify(new Revision($client));
         return redirect()->route('clients.index')
                         ->with('info', 'Client '.$client->id.' created');
       } catch (Exception $e) {

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 <h1>New client</h1>
-@if( session()->has('info') )
+@if( session('info') )
     <h3>{{ session('info') }}</h3>
 @endif
 </div>
