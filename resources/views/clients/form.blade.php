@@ -3,8 +3,13 @@
 <p>
   <label for="name">
     Name
-    <input class="form-control" type="text" name="name"  value="{{ auth()->user()->name ?? old('name')}}">
-    {!! $errors->first('name', '<span class=error>:message</span>') !!}
+    @if(auth()->user()->isAdmin())
+        <input class="form-control" type="text" name="name"  value="{{ $client->name ?? old('name')}}">
+        {!! $errors->first('name', '<span class=error>:message</span>') !!}
+    @else
+        <input class="form-control" type="text" name="name"  value="{{ $name ?? old('name')}}">
+        {!! $errors->first('name', '<span class=error>:message</span>') !!}
+    @endif
   </label>
 </p>
 <p>
@@ -17,8 +22,13 @@
 <p>
 <label for="email">
   Email
-  <input class="form-control" type="email" name="email" value={{ auth()->user()->email  ?? old('email') }}>
-  {!! $errors->first('email', '<span class=error>:message</span>') !!}
+  @if(auth()->user()->isAdmin())
+        <input class="form-control" type="text" name="email"  value="{{ $client->email ?? old('email')}}">
+        {!! $errors->first('email', '<span class=error>:message</span>') !!}
+    @else
+        <input class="form-control" type="text" name="email"  value="{{ $email ?? old('email')}}">
+        {!! $errors->first('email', '<span class=error>:message</span>') !!}
+    @endif
 </label>
 </p>
 <input class="btn btn-primary" type="submit"

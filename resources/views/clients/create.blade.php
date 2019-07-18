@@ -9,7 +9,9 @@
 </div>
 <form class="container-fluid" action={{ route('clients.store') }} method="POST">
   @include('clients.form', [
-    'client' => new App\Client
+    'client' => new App\Client,
+    'name' => auth()->user()->name,
+    'email' => auth()->user()->email
   ])
 </form>
 <hr>

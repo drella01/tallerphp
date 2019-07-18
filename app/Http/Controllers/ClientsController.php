@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
 use App\Events\ClientRegistered;
 use App\Notifications\Revision;
-use App\Mail\Welcome;
 
 class ClientsController extends Controller
 {
@@ -39,11 +38,13 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->isAdmin()) {
-          return redirect()->route('users.create');
+        /*if (auth()->user()->isAdmin()) {
+          //return redirect()->route('users.create');
+          return 'Aquí plantilla para crear el cliente sin datos de usuario';
         } else {
           return view('clients.create');
-        }
+        }*/
+        return view('clients.create');
     }
 
     /**
@@ -56,8 +57,10 @@ class ClientsController extends Controller
     {
       try {
         $client = Client::create($request->all());
-        auth()->user()->client_id = $client->id;
-        auth()->user()->update();
+        if(!auth()->user()->isAdmin()){
+            auth()->user()->client_id = $client->id;
+            auth()->user()->update();
+        }
         event(new ClientRegistered($client));
         $client->notify(new Revision($client));
         return redirect()->route('clients.index')
