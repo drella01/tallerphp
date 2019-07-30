@@ -41,10 +41,11 @@ class UsersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * HEMOS ELIMINADO Request $request y sustituido por request() 2019-07-30
      */
-    public function store(Request $request)
+    public function store()
     {
-        $user = User::create($request->all());
+        $user = User::create(request()->all());
         $user->isClient();
         $client = Client::pluck('email', 'id')->intersect($user->email);
         if ($client->count()){
