@@ -27,6 +27,7 @@
                     {{ config('app.name', 'J-Garaje') }}
                 </a>
                 @auth()
+                @users
                 <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="navbar-brand dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -59,7 +60,8 @@
                             Concepts <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('concepts.index') }}">List</a>
+                        <a class="dropdown-item" href="{{ route('concepts.index') }}">Listado</a>
+                        <a class="dropdown-item" href="{{ route('concepts.create') }}">Añadir nuevo</a>
                     </div>
                 </li>
                 </ul>
@@ -86,6 +88,7 @@
                     </div>
                 </li>
                 </ul>
+                @endusers
                 @endauth
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

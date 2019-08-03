@@ -43,7 +43,15 @@
                     <td>
                       <div class="btn-group btn-group-sm">
                         <a class="btn btn-primary btn-xs"
-                              href="{{ route('concepts.edit', $concept->id) }}">Edit</a>
+                            href="{{ route('concepts.edit', $concept->id) }}">Edit
+                        </a>
+                        <form style="display:inline"
+                            action="{{ route('concepts.destroy', $concept->id) }}"
+                            method="POST">
+                        @csrf
+                        @method('DELETE')
+                            <button class="btn-xs btn-danger" type="submit">Delete</button>
+                        </form>
                       </div>
                     </td>
                 </tr>

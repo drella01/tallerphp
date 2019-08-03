@@ -34,7 +34,7 @@ class ConceptsController extends Controller
      */
     public function create()
     {
-        //
+        return view('concepts.create');
     }
 
     /**
@@ -43,9 +43,11 @@ class ConceptsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $concept = Concept::create(request()->all());
+        return redirect()->route('concepts.index')
+                ->with('info', $concept->concept.' created');
     }
 
     /**
@@ -80,9 +82,10 @@ class ConceptsController extends Controller
      */
     public function update(UpdateConceptRequest $request, $id)
     {
-      $concept = Concept::findOrFail($id);
-      $concept->update($request->all());
-      return redirect()->route('concepts.index')->with('info', 'Concept updated');
+        $concept = Concept::findOrFail($id);
+        $concept->price = $request->price;
+        $concept->update();
+        return redirect()->route('concepts.index')->with('info', 'Concept updated');
     }
 
     /**
@@ -91,8 +94,14 @@ class ConceptsController extends Controller
      * @param  \App\Concept  $concept
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Concept $concept)
+    public function destroy($id)
     {
-        //
+        $concept = Concept::findOrFail($id);
+        if ($concept->workOrders->count()){
+            return back()->with('info', 'No se puede borrar. Tiene órdenes de trabajo');
+        }else{
+            $concept->delete();
+            return redirect()->route('concepts.index')->with('info', 'Concepto borrado');
+        }
     }
 }
