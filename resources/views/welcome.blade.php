@@ -90,6 +90,18 @@
                     </div>
                 @endif
                 </div>
+                @auth()
+                <div class="links">
+                    <a href="{{ route('cars.index') }}">
+                        <img src="images/coche.png" title="Mis coches"
+                            width="85" height="68">
+                    </a>
+                    <a href="#">
+                        <img src="images/index3.png" title="Mis citas"
+                            width="85" height="68">
+                    </a>
+                </div>
+                @endauth
                 <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>
                     <a href="https://laracasts.com">Laracasts</a>

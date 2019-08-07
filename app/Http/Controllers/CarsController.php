@@ -22,6 +22,10 @@ class CarsController extends Controller
 
     public function index()
     {
+        if(!auth()->user()->hasRoles(['admin','user'])){
+            $cars = Car::all()->where('client_id',auth()->user()->client_id);
+            return view ('cars.index', compact('cars') );
+        }
         $cars = Car::all();
         return view ('cars.index', compact('cars') );
     }

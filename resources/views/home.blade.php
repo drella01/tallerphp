@@ -3,13 +3,27 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <!--div class="col-md-8">
+        <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Menu</div>
+                <p>
+                    <a href="#">
+                    <img src="images/index3.png" title="Mis citas"
+                        width="85" height="68">
+                        mis citas
+                    </a>
+                </p>
+                <p>
+                    <a href="{{ route('cars.index') }}">
+                    <img src="images/coche.png" title="Mis coches"
+                        width="85" height="68">
+                        mis coches
+                    </a>
+                </p>
+            </div>
 
             </div>
-        </div-->
-
+        </div>
         <div class="card">
             <div class="card-body">
                 @if (session('info'))
@@ -18,47 +32,28 @@
                     </div>
                 @endif
             </div>
-            <table class="table">
-              <thead class="card-header">
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Roles</th>
-                  @admin
-                  <th>Actions</th>
-                  @endadmin
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($users as $user)
-                  <tr>
-                    <td>{{ $user->id }}</td>
-
-                    <td>
-                      <a href="#">{{ $user->name }}</a>
-                    </td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
-                  @admin
-                  <td>
-                    <div class="btn-group btn-group-sm">
-                      <a class="btn btn-primary btn-xs"
-                          href="#">Edit</a>
-                      <form style="display:inline"
-                          action={{ route('users.destroy', $user->id) }}
-                          method="POST">
-                        @csrf
-                        @method('DELETE')
-                          <button class="btn-xs btn-danger" type="submit">Delete</button>
-                      </form>
-                    </div>
-                  </td>
-                  @endadmin
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
+            @auth()
+            <div class="links">
+                <a href="{{ route('cars.index') }}">
+                    <img src="images/coche.png" title="Mis coches"
+                        width="85" height="68">
+                </a>
+                <a href="#">
+                    <img src="images/index3.png" title="Mis citas"
+                        width="85" height="68">
+                </a>
+            </div>
+            @endauth
+            <div class="links">
+                <a href="https://laravel.com/docs">Docs</a>
+                <a href="https://laracasts.com">Laracasts</a>
+                <a href="https://laravel-news.com">News</a>
+                <a href="https://blog.laravel.com">Blog</a>
+                <a href="https://nova.laravel.com">Nova</a>
+                <a href="https://forge.laravel.com">Forge</a>
+                <a href="https://github.com/laravel/laravel">GitHub</a>
+            </div>
+        </div>
         </div>
     </div>
 </div>

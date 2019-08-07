@@ -3,9 +3,6 @@
 @if (session()->has('info'))
   <div class="alert alert-success">{{ session('info') }}</div>
 @endif
-@if (App\Client::all()->pluck('email')->intersect(auth()->user()->email)->count())
-  <h2>Hello {{App\Client::all()->pluck('email')->intersect(auth()->user()->email)}}</h2>
-@endif
 <div class="container col-md-8">
 <h1 align="center">Cars</h1>
 <div class="card">
