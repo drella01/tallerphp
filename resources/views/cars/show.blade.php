@@ -28,13 +28,12 @@
         <th>WorkOrder</th>
         @foreach ($orders as $order)
           <td>
-            {{ $order->concept->concept }}
+            <ul>{{ $order->concept->concept }} {{ $order->date }}</ul>
           </td>
         @endforeach
       </tr>
     </table>
     <h3>Last revision: <strong>{{ $car->updated_at->format('d-M-Y') }}</strong></h3>
-    {{ $car->workOrders }}
   </div>
   <div class="btn-group btn-group-sm">
       <a class="btn btn-primary btn-xs"

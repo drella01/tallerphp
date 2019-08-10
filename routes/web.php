@@ -1,16 +1,5 @@
 <?php
 
-/*App\Concept::create([
-  'concept' => 'revision a/c',
-  'price' => 69.99,
-  'brand' => 'bosch',
-]);
-$wo = App\WorkOrder::all();
-foreach ($wo as $w){
-  $w->total = $w->total($w->units);
-  $w->update();
-};*/
-
 Route::get('/', function () {
     return view('welcome');
 });

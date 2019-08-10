@@ -20,6 +20,13 @@
                         mis coches
                     </a>
                 </p>
+                <p>
+                    <a href="{{ route('facturas.index') }}">
+                    <img src="images/factura.png" title="Mis facturas"
+                        width="85" height="68">
+                        mis facturas
+                    </a>
+                </p>
             </div>
 
             </div>

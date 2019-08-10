@@ -27,7 +27,7 @@ class Car extends Model
 
     public function facturas()
     {
-      return $this->belongsToMany(Factura::class);
+      return $this->hasMany(Factura::class);
     }
 
 

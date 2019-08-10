@@ -23,7 +23,8 @@ class FacturasController extends Controller
 
     public function index()
     {
-        return 'como siempre algo que hacer';
+        $facturas = Factura::with('workorders')->get();
+        return view('facturas.index', compact('facturas'));
     }
 
     /**
@@ -88,23 +89,22 @@ class FacturasController extends Controller
     {
         $factura = Factura::findOrFail($id);
         if ($request->concept_id) {
-        $workorder = WorkOrder::create([
-          'car_id' => $factura->car_id,
-          'date' => $factura->date,
-          'concept_id' => $request->concept_id,
-          'units' => $request->units,
-          ]);
-        $workorder->total($workorder->units);
-        $workorder->discount = $workorder->total * ($request->discount/100);
-        $workorder->update();
-        $factura->workorders()->attach($workorder->id);
-        return back()->with('info', 'line added');
-          // code...
+            $workorder = WorkOrder::create([
+                'car_id' => $factura->car_id,
+                'date' => $factura->date,
+                'concept_id' => $request->concept_id,
+                'units' => $request->units,
+            ]);
+            $workorder->total($workorder->units);
+            $workorder->discount = $workorder->total * ($request->discount/100);
+            $workorder->update();
+            $factura->workorders()->attach($workorder->id);
+            return back()->with('info', 'line added');
         }
         elseif(WorkOrder::findOrFail($request->workorder_id)){
-          $workorder = WorkOrder::findOrFail($request->workorder_id);
-          $factura->workorders()->attach($workorder->id);
-          return back()->with('info', 'line added');
+            $workorder = WorkOrder::findOrFail($request->workorder_id);
+            $factura->workorders()->attach($workorder->id);
+            return back()->with('info', 'line added');
         }
 
     }

@@ -69,13 +69,14 @@
   <thead class="card-header" align="center">
     <tr>
       <th>Concept</th>
-      <th>Total</th>
+      <th>Base</th>
       <th>Discount</th>
+      <th>Total</th>
     </tr>
   </thead>
   <tbody>
     @foreach ($factura->workorders as $workorder)
-        <div class="form-inline">
+        <!--div class="form-inline">
           <form action="" method="POST">
               <td><output class="form-control" name="result">
                 {{ App\Concept::findOrFail($workorder->concept_id)->concept }}</output>
@@ -83,13 +84,14 @@
               <td><input type="email" class="form-control" id="" placeholder="Input field"></td>
               <td><input type="submit" class="btn btn-primary" value="edit"></td>
           </form>
-        </div>
+        </div-->
       <tr>
         <td align="center">
           {{ App\Concept::findOrFail($workorder->concept_id)->concept }}
         </td>
         <td align="right">{{ '€ '.$workorder->total }}</td>
         <td align="right">{{ '€ '.$workorder->discount }}</td>
+        <td align="right">{{ $workorder->total - $workorder->discount }}</td>
       </tr>
     @endforeach
   </tbody>

@@ -83,8 +83,9 @@
                             Invoices <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('invoices.create') }}">Factura</a>
-                        <a class="dropdown-item" href="{{ route('facturas.create') }}">{{ __('Factura directa')}}</a>
+                        <a class="dropdown-item" href="{{ route('facturas.index') }}">{{ __('Facturas')}}</a>
+                        <a class="dropdown-item" href="{{ route('invoices.create') }}">Crear Factura</a>
+                        <a class="dropdown-item" href="{{ route('facturas.create') }}">{{ __('Crear Factura directa')}}</a>
                     </div>
                 </li>
                 </ul>
