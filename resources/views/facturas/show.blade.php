@@ -31,16 +31,16 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($factura->workorders as $workorder)
+        @foreach ($workorders as $workorder)
           <tr>
             <td align="center">
-              {{ App\Concept::findOrFail($workorder->concept_id)->concept }}
+              {{ $workorder->concept->concept }}
             </td>
             <td align="center">
               {{ $workorder->units }}
             </td>
             <td align="center">
-              {{ '€ '.App\Concept::findOrFail($workorder->concept_id)->price }}
+              {{ '€ '.$workorder->concept->price }}
             </td>
             <td align="right">{{ '€ '.$workorder->total }}</td>
             <td align="right">{{ '€ '.$workorder->discount }}</td>

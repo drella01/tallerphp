@@ -6,6 +6,7 @@ use App\Factura;
 use App\WorkOrder;
 use App\Car;
 use App\Concept;
+use Exception;
 use Illuminate\Http\Request;
 
 class FacturasController extends Controller
@@ -19,11 +20,18 @@ class FacturasController extends Controller
     public function __construct()
     {
       $this->middleware('auth');
+      $this->middleware('roles:admin',['except' =>['index','show']]);
     }
 
     public function index()
     {
-        $facturas = Factura::with('workorders')->get();
+        if(!auth()->user()->hasRoles(['admin','user'])){
+            $cars = Car::where('client_id',auth()->user()->client_id)->get();
+            $facturas = Factura::with('workorders')
+                        ->whereIn('car_id',$cars->pluck('id'))->get();
+        } else{
+            $facturas = Factura::with('workorders')->get();
+        }
         return view('facturas.index', compact('facturas'));
     }
 
@@ -60,8 +68,18 @@ class FacturasController extends Controller
     public function show($id)
     {
         $factura = Factura::findOrFail($id);
-        return view('facturas.show', compact('factura'));
-        //
+        $workorders = $factura->workorders;
+        try{
+            $user = $factura->car->client->user;
+            if(auth()->user()->isAdmin()){
+                return view('facturas.factura', compact('factura','workorders'));
+            } elseif($user->id === auth()->user()->id){
+                return view('facturas.factura', compact('factura','workorders'));
+            }
+        } catch(Exception $e){
+            return redirect()->route('facturas.index')
+                            ->with('info','no estas AUTORIZADO A VERLA');
+        }
     }
 
     /**

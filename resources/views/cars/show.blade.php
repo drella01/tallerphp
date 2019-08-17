@@ -25,10 +25,19 @@
         <td>{{ $car->kms }}</td>
       </tr>
       <tr>
-        <th>WorkOrder</th>
-        @foreach ($orders as $order)
+        <th>ITV</th>
+        <td>{{ $car->itv }}</td>
+      </tr>
+      <tr>
+        <th>Facturas</th>
+        @foreach ($facturas as $factura)
           <td>
-            <ul>{{ $order->concept->concept }} {{ $order->date }}</ul>
+            <ul>
+                <a href="{{ route('facturas.show',$factura->id) }}">
+                Factura {{ date('y')*1000 + $factura->id }}<br>
+                Fecha {{ date_format(date_create($factura->date),'d-m-y') }}
+                </a>
+            </ul>
           </td>
         @endforeach
       </tr>

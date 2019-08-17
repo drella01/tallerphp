@@ -4,9 +4,6 @@
 
 <div class="container">
   <h2 align="center">Facturas</h2>
-  @if( session()->has('info') )
-    <div class="alert alert-success">{{ session('info') }}</div>
-  @endif
     <div class="row justify-content-center">
 
         <!--div class="col-md-8">
@@ -24,6 +21,9 @@
             </div>
         </div-->
         <div class="card">
+            @if( session()->has('info') )
+                <div class="alert alert-success">{{ session('info') }}</div>
+            @endif
             <table class="table">
               <thead class="card-header">
                 <tr>

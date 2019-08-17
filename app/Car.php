@@ -30,6 +30,11 @@ class Car extends Model
       return $this->hasMany(Factura::class);
     }
 
+    public function revisions()
+    {
+      return $this->belongsToMany(Revision::class);
+    }
+
 
 
 

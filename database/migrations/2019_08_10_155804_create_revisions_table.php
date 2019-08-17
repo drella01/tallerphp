@@ -17,7 +17,7 @@ class CreateRevisionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('type')->unique();
             $table->text('description')->nullable();
-            $table->float('price', 8, 2)->unique();
+            $table->float('price', 8, 2)->nullable();
             $table->timestamps();
         });
     }

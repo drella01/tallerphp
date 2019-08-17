@@ -17,3 +17,8 @@ Route::resource('workorders', 'WorkOrdersController');
 Route::resource('invoices', 'InvoicesController');
 Route::resource('clients', 'ClientsController');
 Route::resource('facturas', 'FacturasController');
+Route::resource('revision', 'CarRevisionController');
+
+Route::get('facturatest', function () {
+    return view('facturas.factura');
+});

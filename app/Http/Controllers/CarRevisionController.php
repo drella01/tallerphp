@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\CarRevision;
+use App\Revision;
 use App\Car;
-use App\Client;
 use Illuminate\Http\Request;
-use Exception;
 
-class CarsController extends Controller
+class CarRevisionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function __construct()
     {
-         $this->middleware('auth');
+      $this->middleware('auth');
     }
 
     public function index()
     {
-        if(!auth()->user()->hasRoles(['admin','user'])){
-            $cars = Car::all()->where('client_id',auth()->user()->client_id);
-        } else{
-            $cars = Car::all()->sortBy('id');
-        }
-        return view ('cars.index', compact('cars') );
+        $cars = Car::with('revisions')->get();
+        return $cars;
     }
 
     /**
@@ -37,8 +32,9 @@ class CarsController extends Controller
      */
     public function create()
     {
-        $clients = Client::all();
-        return view('cars.create', compact('clients'));
+        $cars = Car::all();
+        $revisions = Revision::all();
+        return view('revision.create', compact('cars', 'revisions'));
     }
 
     /**
@@ -49,39 +45,28 @@ class CarsController extends Controller
      */
     public function store(Request $request)
     {
-      try {
-        $car = Car::create($request->all());
-
-        return redirect()->route('cars.index')
-                        ->with('info', 'New car added with register '.$request->registration);
-
-      } catch (Exception $e) {
-        return 'Cagada de sql '.$e->getMessage();
-      }
-
+        $revision = CarRevision::create($request->all());
+        return 'revisión hecha el día '.$revision->date;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\CarRevision  $carRevision
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(CarRevision $carRevision)
     {
-        $car = Car::findOrFail($id);
-        $facturas = $car->facturas;
-
-        return view('cars.show', compact('car', 'facturas'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\CarRevision  $carRevision
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CarRevision $carRevision)
     {
         //
     }
@@ -90,10 +75,10 @@ class CarsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\CarRevision  $carRevision
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CarRevision $carRevision)
     {
         //
     }
@@ -101,10 +86,10 @@ class CarsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\CarRevision  $carRevision
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CarRevision $carRevision)
     {
         //
     }
