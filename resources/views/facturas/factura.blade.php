@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Example Factura</title>
-    <link rel="stylesheet" href="/css/style.css" media="all" />
+    <title>Factura</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" media="all" />
   </head>
   <body>
     <header class="clearfix">
       <div id="logo">
-        <img src="/images/logo.png">
+        <img src={{ $img }}>
       </div>
       <div id="company">
         <h2 class="name">Company Name</h2>

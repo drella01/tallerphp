@@ -10,6 +10,7 @@ class Concept extends Model
     'concept',
     'price',
     'brand',
+    'image',
   ];
 
   public function workOrders()

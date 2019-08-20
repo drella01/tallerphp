@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Concept;
+use App\Http\Requests\CreateConceptRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateConceptRequest;
 
@@ -17,6 +18,7 @@ class ConceptsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('roles:admin',['except' =>['index','show']]);
     }
 
     public function index()
@@ -43,9 +45,12 @@ class ConceptsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(CreateConceptRequest $request)
     {
-        $concept = Concept::create(request()->all());
+        $concept = (new Concept)->fill($request->all());
+        //$concept = Concept::create(request()->all());
+        $concept->image = request()->file('image')->store('public/images');
+        $concept->save();
         return redirect()->route('concepts.index')
                 ->with('info', $concept->concept.' created');
     }
@@ -84,6 +89,9 @@ class ConceptsController extends Controller
     {
         $concept = Concept::findOrFail($id);
         $concept->price = $request->price;
+        if($request->hasFile('image')){
+            $concept->image = $request->file('image')->store('public/images');
+        }
         $concept->update();
         return redirect()->route('concepts.index')->with('info', 'Concept updated');
     }

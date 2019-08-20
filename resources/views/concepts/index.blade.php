@@ -27,6 +27,7 @@
               <thead class="card-header">
                 <tr>
                   <th>ID</th>
+                  <th>Image</th>
                   <th>Detail</th>
                   <th>Price</th>
                   <th>Brand</th>
@@ -37,6 +38,9 @@
                 @foreach ($concepts as $concept)
                 <tr>
                     <td>{{ $concept->id }}</td>
+                    <td>
+                        <img src="{{ Storage::url($concept->image) }}" alt="image" width="50">
+                    </td>
                     <td><a href="#">{{ $concept->concept }}</a></td>
                     <td>{{ $concept->price }}</td>
                     <td>{{ $concept->brand }}</td>

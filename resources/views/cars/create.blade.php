@@ -1,15 +1,27 @@
 @extends('layouts.app')
+
 @section('content')
-<form class="container-fluid" action={{ route('cars.store') }} method="POST">
+
+<form class="container" action={{ route('cars.store') }} method="POST">
   @csrf
-  <div class=" row justify-content-center">
+  <div class="container">
     <p>
       <label for="registration">
       Registration
       <input class="form-control" type="text" name="registration"
       value="{{ $car->name ?? old('name') }}" required>
       {!! $errors->first('name', '<span class=error>:message</span>') !!}
-    </label></p>
+    </label>
+    <label for="client_id">
+        Owner
+        <select class="form-control" name="client_id">
+              <option value="">Select owner</option>
+          @foreach ($clients as $client)
+              <option name="client_id" value="{{ $client->id }}">{{ $client->name }}</option>
+          @endforeach
+        </select>
+    </label>
+    </p>
     <p>
     <label for="brand">
       Brand
@@ -31,6 +43,8 @@
       value="{{ $car->year ?? old('brand') }}" required>
       {!! $errors->first('year', '<span class=error>:message</span>') !!}
     </label>
+    </p>
+    <p>
     <label for="kms">
       Kms
       <input class="form-control navbar" type="number" name="kms"
@@ -38,19 +52,7 @@
       {!! $errors->first('year', '<span class=error>:message</span>') !!}
     </label>
     </p>
-    <p>
-        <label for="client_id">
-        Owner
-        <select class="form-control" name="client_id">
-              <option value="">Select owner</option>
-          @foreach ($clients as $client)
-              <option name="client_id" value="{{ $client->id }}">{{ $client->name }}</option>
-          @endforeach
-        </select>
-        </label>
-    </p>
     <br>
-
   </div>
   <div class="row justify-content-center">
   <p>

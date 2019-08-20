@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\User;
 
-class UpdateConceptRequest extends FormRequest
+class CreateConceptRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UpdateConceptRequest extends FormRequest
      */
     public function authorize()
     {
-       return true;
+        return true;
     }
 
     /**
@@ -25,8 +24,9 @@ class UpdateConceptRequest extends FormRequest
     public function rules()
     {
         return [
+            'concept'=> 'required',
             'image' => 'image',
-            'price' => 'required',
+            'price'=>'required',
         ];
     }
 }

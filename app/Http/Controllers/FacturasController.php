@@ -61,6 +61,7 @@ class FacturasController extends Controller
 
     /**
      * Display the specified resource.
+     * EN LAS NOTAS ESTA UN CODIGO QUE HACIA LAS VECES DE POLICY 19-08-18
      *
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
@@ -69,16 +70,13 @@ class FacturasController extends Controller
     {
         $factura = Factura::findOrFail($id);
         $workorders = $factura->workorders;
+        $img = asset('images/logo.png');
         try{
-            $user = $factura->car->client->user;
-            if(auth()->user()->isAdmin()){
-                return view('facturas.factura', compact('factura','workorders'));
-            } elseif($user->id === auth()->user()->id){
-                return view('facturas.factura', compact('factura','workorders'));
-            }
+            $this->authorize($factura);
+            return view('facturas.factura', compact('factura','workorders', 'img'));
         } catch(Exception $e){
             return redirect()->route('facturas.index')
-                            ->with('info','no estas AUTORIZADO A VERLA');
+                            ->with('info','NO estás AUTORIZADO A VERLA o '.$e->getMessage());
         }
     }
 
