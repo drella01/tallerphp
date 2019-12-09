@@ -49,9 +49,9 @@
             <td class="no">{{ $workorder->id }}</td>
             <td class="desc"><h3>{{ $workorder->concept->concept }}</h3>{{ $workorder->concept->brand }}</td>
             <td class="unit">{{ '€ '.$workorder->concept->price }}</td>
-            <td class="qty">{{ '€ '.$workorder->units }}</td>
-            <td class="unit">{{ (($workorder->discount/$workorder->total)*100).'%' }}</td>
-            <td class="total">{{ '€ '.($workorder->total - $workorder->discount) }}</td>
+            <td class="qty">{{ $workorder->units }}</td>
+            <td class="unit">{{ round((($workorder->discount/$workorder->total)*100)).'%' }}</td>
+            <td class="total">{{ '€ '.round(($workorder->total - $workorder->discount),2) }}</td>
           </tr>
           @endforeach
         </tbody>

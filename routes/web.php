@@ -19,6 +19,10 @@ Route::resource('clients', 'ClientsController');
 Route::resource('facturas', 'FacturasController');
 Route::resource('revision', 'CarRevisionController');
 
-Route::get('facturatest', function () {
-    return view('facturas.factura');
+Route::get('facturatest/{factura}', function ($factura) {
+    $factura = App\Factura::find(9);
+    $img = asset('images/logo.png');
+    $workorders = $factura->workorders;
+    return view('facturas.factura', ['factura' => $factura, 'img'=>$img,
+                                    'workorders' => $workorders]);
 });

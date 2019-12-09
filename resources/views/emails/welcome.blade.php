@@ -3,7 +3,7 @@
 
 The body of your message to {{ $data->name }} as notificacion
 
-@component('mail::button', ['url' => ''])
+@component('mail::button', ['url' => '/home'])
 Button Text
 @endcomponent
 

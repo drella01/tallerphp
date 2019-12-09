@@ -20,7 +20,7 @@ class ClientsController extends Controller
     public function __construct()
     {
        $this->middleware('auth');
-       $this->middleware('roles:admin,user',['except' =>['show']]);
+       $this->middleware('roles:admin,user',['except' =>['show', 'create', 'store', 'edit']]);
     }
 
     public function index()
@@ -39,12 +39,6 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        /*if (auth()->user()->isAdmin()) {
-          //return redirect()->route('users.create');
-          return 'Aquí plantilla para crear el cliente sin datos de usuario';
-        } else {
-          return view('clients.create');
-        }*/
         return view('clients.create');
     }
 
@@ -57,14 +51,26 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
       try {
-        $client = Client::create($request->all());
-        if(!auth()->user()->isAdmin()){
-            auth()->user()->client_id = $client->id;
-            auth()->user()->update();
+        if(auth()->user()->isAdmin()){
+            $client = Client::create($request->all());
+        } elseif(!auth()->user()->isAdmin()){
+            if(Client::where('email',$request->email)->first()){
+                auth()->user()->client_id = Client::where('email',$request->email)->first()->id;
+                auth()->user()->update();
+                return redirect()->route('home')->with('info', $user->name.' clienteado de cojones y asociado');
+
+            } elseif(auth()->user()->email === $request->email){
+                $client = Client::create($request->all());
+                auth()->user()->client_id = $client->id;
+                auth()->user()->update();
+            } else{
+                return back()->with('info', 'Los emails tienen que coincidir');
+            }
+
         }
         event(new ClientRegistered($client));
         $client->notify(new Revision($client));
-        return redirect()->route('clients.index')
+        return redirect()->route('home')
                         ->with('info', 'Client '.$client->id.' created');
       } catch (Exception $e) {
         return $e->getMessage();
@@ -79,6 +85,7 @@ class ClientsController extends Controller
     public function show($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize($client);
         return view('clients.show', compact('client'));
     }
 
@@ -91,6 +98,7 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize($client);
         return view('clients.edit', compact('client'));
     }
 
@@ -104,6 +112,7 @@ class ClientsController extends Controller
     public function update(ClientRequest $request, $id)
     {
         $client = Client::findOrFail($id);
+        $this->authorize($client);
         $client->update($request->all());
         return redirect()->route('clients.index')->with('info', 'Client '.$client->name.' updated');
     }

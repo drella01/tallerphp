@@ -46,11 +46,11 @@
   </div>
 </p>
 <p>
-  <label for="remark">
-    Remarks
-    <input class="form-control" type="text-area" name="remark">
-    {!! $errors->first('units', '<span class=error>:message</span>') !!}
-  </label>
+    <label for="remark">
+        Remarks
+        <input class="form-control" type="text-area" name="remark">
+        {!! $errors->first('units', '<span class=error>:message</span>') !!}
+    </label>
 </p>
 <input class="btn btn-primary" type="submit"
 value="{{ $btnText ?? 'Send'}}">

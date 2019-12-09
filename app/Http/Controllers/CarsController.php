@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Car;
 use App\Client;
+use App\Jobs\TestJob;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -27,6 +28,8 @@ class CarsController extends Controller
             $cars = Car::all()->where('client_id',auth()->user()->client_id);
         } else{
             $cars = Car::all()->sortBy('id');
+            $client = Client::findOrFail(183);
+            TestJob::dispatch($client);
         }
         return view ('cars.index', compact('cars') );
     }
@@ -54,7 +57,7 @@ class CarsController extends Controller
         $car = Car::create($request->all());
 
         return redirect()->route('cars.index')
-                        ->with('info', 'New car added with register '.$request->registration);
+                        ->with('info', 'New car added with register '.$car->registration);
 
       } catch (Exception $e) {
         return 'Cagada de sql '.$e->getMessage();
@@ -68,9 +71,9 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Car $car)
     {
-        $car = Car::findOrFail($id);
+        //$car = Car::findOrFail($id);
         $facturas = $car->facturas;
 
         return view('cars.show', compact('car', 'facturas'));

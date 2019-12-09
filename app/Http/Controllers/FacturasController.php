@@ -66,9 +66,9 @@ class FacturasController extends Controller
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Factura $factura)
     {
-        $factura = Factura::findOrFail($id);
+        //$factura = Factura::findOrFail($id);
         $workorders = $factura->workorders;
         $img = asset('images/logo.png');
         try{
@@ -105,7 +105,8 @@ class FacturasController extends Controller
     {
         $factura = Factura::findOrFail($id);
         if ($request->concept_id) {
-            $workorder = WorkOrder::create([
+            //$workorder = WorkOrder::create
+            $workorder = (new WorkOrder)->fill([
                 'car_id' => $factura->car_id,
                 'date' => $factura->date,
                 'concept_id' => $request->concept_id,
@@ -113,7 +114,7 @@ class FacturasController extends Controller
             ]);
             $workorder->total($workorder->units);
             $workorder->discount = $workorder->total * ($request->discount/100);
-            $workorder->update();
+            $workorder->save();
             $factura->workorders()->attach($workorder->id);
             return back()->with('info', 'line added');
         }
@@ -133,6 +134,7 @@ class FacturasController extends Controller
      */
     public function destroy(Factura $factura)
     {
-        //
+        $factura->delete();
+        return 'Factura '.$factura->id.' borrada';
     }
 }

@@ -64,17 +64,17 @@
 </form>
 <hr>
 <div class="container col-md-8">
-  <h4> Detalles de la factura {{$factura->id}} del {{$factura->date}}</h4>
-  <table class="card-header col-md-6">
-  <thead class="card-header" align="center">
-    <tr>
-      <th>Concept</th>
-      <th>Base</th>
-      <th>Discount</th>
-      <th>Total</th>
-    </tr>
-  </thead>
-  <tbody>
+    <h4> Detalles de la factura {{$factura->id}} del {{$factura->date}}</h4>
+    <table class="card-header col-md-6">
+    <thead class="card-header" align="center">
+        <tr>
+            <th>Concept</th>
+            <th>Base</th>
+            <th>Discount</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
     @foreach ($factura->workorders as $workorder)
         <!--div class="form-inline">
           <form action="" method="POST">
@@ -85,16 +85,18 @@
               <td><input type="submit" class="btn btn-primary" value="edit"></td>
           </form>
         </div-->
-      <tr>
-        <td align="center">
-          {{ App\Concept::findOrFail($workorder->concept_id)->concept }}
-        </td>
-        <td align="right">{{ '€ '.$workorder->total }}</td>
-        <td align="right">{{ '€ '.$workorder->discount }}</td>
-        <td align="right">{{ $workorder->total - $workorder->discount }}</td>
-      </tr>
+        <tr>
+            <td align="center">
+             {{ App\Concept::findOrFail($workorder->concept_id)->concept }}
+            </td>
+            <td align="right">{{ '€ '.$workorder->total }}</td>
+            <td align="right">{{ '€ '.$workorder->discount }}</td>
+            <td align="right">{{ $workorder->total - $workorder->discount }}</td>
+        </tr>
     @endforeach
-  </tbody>
+    </tbody>
 </table>
+<hr>
+<a href="{{ route('facturas.show', $factura->id) }}" class="btn btn-primary">Generar Factura</a>
 </div>
 @endsection

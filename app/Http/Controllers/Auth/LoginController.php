@@ -25,7 +25,13 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        //$userName = Auth::user()->name;
+        //use your own route
+        return route('home');
+    }
 
     /**
      * Create a new controller instance.
