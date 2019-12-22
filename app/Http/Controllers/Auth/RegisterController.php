@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -75,5 +76,18 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $user->isClient();
+        $client = Client::pluck('email', 'id')->intersect($user->email);
+        if ($client->count()){
+            $user->client_id = $client->keys()->first();
+            $user->save();
+            return redirect()->route('home')->with('info', $user->name.' clienteado de cojones y asociado');
+        } else {
+            return redirect()->route('clients.create')->with('info', $user->name.' clienteado de cojones y ahora a completar el registro');
+        }
     }
 }
