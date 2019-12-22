@@ -81,9 +81,9 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
         $user->isClient();
-        $client = Client::pluck('email', 'id')->intersect($user->email);
-        if ($client->count()){
-            $user->client_id = $client->keys()->first();
+        $client = Client::where('email', $user->email)->first();
+        if ($client){
+            $user->client_id = $client->id;
             $user->save();
             return redirect()->route('home')->with('info', $user->name.' clienteado de cojones y asociado');
         } else {
